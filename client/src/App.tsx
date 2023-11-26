@@ -7,6 +7,7 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route index path='/' element={<LoginLayout />} />
+      <Route index path='/:path' element={<LoginLayout />} />
     </Routes>
     </BrowserRouter>
   );
