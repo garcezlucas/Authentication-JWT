@@ -25,4 +25,14 @@ export class AuthController {
   getProfile(@Request() req) {
     return req.user;
   }
+
+  @Post('logout')
+  logout() {
+    return { message: 'Logout successful' };
+  }
+
+  @Post('refresh-token')
+  refreshToken(@Body() body: { refresh_token: string }) {
+    return this.authService.refreshToken(body.refresh_token);
+  }
 }
