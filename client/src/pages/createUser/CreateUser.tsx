@@ -4,8 +4,10 @@ import ModalFeedBack from "../../components/modalFeedback/ModalFeedback";
 import OpenEye from "../../assets/icons/open_eye.svg";
 import CloseEye from "../../assets/icons/close_eye.svg";
 import { useCreateUser } from "./useCreateuser";
+import { useNavigate } from "react-router-dom";
 
 function CreateUser() {
+  const navigate = useNavigate();
   const {
     firstName,
     lastName,
@@ -32,10 +34,10 @@ function CreateUser() {
     <div className="createuser-component-container">
       <div className="createuser-component-container-fix">
         <div className="createuser-component-container-header">
-          <header>Create user</header>
+          <header>Criar usuário</header>
         </div>
         <div className="createuser-component-container-message">
-          <p>Please enter your informations!</p>
+          <p>Por favor, insira suas informações!</p>
         </div>
         <form
           className="createuser-component-container-forms"
@@ -44,7 +46,7 @@ function CreateUser() {
           <div className="createuser-component-container-forms-firstName">
             <input
               type="text"
-              placeholder="First name"
+              placeholder="Primeiro nome"
               value={firstName}
               onChange={handleFirstNameChange}
             />
@@ -52,7 +54,7 @@ function CreateUser() {
           <div className="createuser-component-container-forms-lastName">
             <input
               type="text"
-              placeholder="Last name"
+              placeholder="Sobrenome"
               value={lastName}
               onChange={handleLastNameChange}
             />
@@ -68,7 +70,7 @@ function CreateUser() {
           <div className="createuser-component-container-forms-password">
             <input
               type={`${showPassword ? "text" : "password"}`}
-              placeholder="Password"
+              placeholder="Senha"
               value={password}
               onChange={handlePasswordChange}
             />
@@ -89,7 +91,7 @@ function CreateUser() {
           <div className="createuser-component-container-forms-password">
             <input
               type={`${showConfirmPassword ? "text" : "password"}`}
-              placeholder="Confirme password"
+              placeholder="Confirmação da senha"
               value={confirmPassword}
               onChange={handleConfirmPasswordChange}
             />
@@ -109,7 +111,7 @@ function CreateUser() {
           </div>
           {confirmPassword.length > 0 && password !== confirmPassword && (
             <div className="createuser-component-container-forms-error">
-              <p>The passwords must be the same!</p>
+              <p>As senhas precisam ser iguais!</p>
             </div>
           )}
           {!validPassword.status && (
@@ -120,8 +122,11 @@ function CreateUser() {
             </div>
           )}
           <div className="createuser-component-container-button">
+            <button type="button" onClick={() => navigate('/login')}>
+              <span>Voltar</span>
+            </button>
             <button type="submit">
-              <span>Create</span>
+              <span>Criar</span>
             </button>
           </div>
         </form>

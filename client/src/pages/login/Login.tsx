@@ -26,7 +26,7 @@ const Login: React.FC = () => {
           <header>Login</header>
         </div>
         <div className="login-component-container-message">
-          <p>Please enter your login and password!</p>
+          <p>Por favor, insira seu userName e senha!</p>
         </div>
         <form
           className="login-component-container-forms"
@@ -43,7 +43,7 @@ const Login: React.FC = () => {
           <div className="login-component-container-forms-password">
             <input
               type={`${showPassword ? "text" : "password"}`}
-              placeholder="Password"
+              placeholder="Senha"
               value={password}
               onChange={handlePasswordChange}
             />
@@ -63,7 +63,7 @@ const Login: React.FC = () => {
           </div>
           <div className="login-component-container-footer">
             <span onClick={() => navigate("/createuser")}>Criar usuário</span>
-            <span>Forgot password?</span>
+            <span onClick={() => navigate("/recoverypassword")}>Esqueceu a senha?</span>
           </div>
           <div className="login-component-container-button">
             <button type="submit">
