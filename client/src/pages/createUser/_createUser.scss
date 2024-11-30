@@ -1,4 +1,4 @@
-.createuser-component-container {
+.createuser-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,21 +46,7 @@
                 outline: none;
             }
         }
-        &-firstName {
-            width: 22rem;
-            height: 1.5rem;
-            border: 1px solid silver;
-            border-radius: 0.3rem;
-            padding-left: 0.5rem;
-        }
-        &-lastName {
-            width: 22rem;
-            height: 1.5rem;
-            border: 1px solid silver;
-            border-radius: 0.3rem;
-            padding-left: 0.5rem;
-        }
-        &-userName {
+        &-input {
             width: 22rem;
             height: 1.5rem;
             border: 1px solid silver;
@@ -108,6 +94,7 @@
         display: flex;
         justify-content: center;
         width: 100%;
+        gap: 1rem;
         & button {
             width: 5rem;
             height: 2rem;

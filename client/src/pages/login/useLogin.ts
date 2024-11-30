@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { LoginDataService } from "../../services/Login.service";
 
@@ -8,7 +7,11 @@ interface CustomError {
   data?: any;
 }
 
-export function useLogin() {
+interface useLoginProps {
+  navigate: (path: string) => void;
+}
+
+export function useLogin({ navigate }: useLoginProps) {
   const [userName, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -17,8 +20,6 @@ export function useLogin() {
     message: "",
   });
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const navigate = useNavigate();
 
   const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(e.target.value);
