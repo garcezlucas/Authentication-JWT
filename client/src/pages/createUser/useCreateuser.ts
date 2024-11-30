@@ -3,7 +3,6 @@ import {
   PasswordValidationResult,
   validatePassword,
 } from "../../utils/ValidatePassword";
-import { useNavigate } from "react-router-dom";
 import { LoginDataService } from "../../services/Login.service";
 
 interface CustomError {
@@ -12,10 +11,15 @@ interface CustomError {
   data?: any;
 }
 
-export function useCreateUser() {
+interface useCreateUserProps {
+  navigate: (path: string) => void;
+}
+
+export function useCreateUser({ navigate }: useCreateUserProps) {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -31,8 +35,6 @@ export function useCreateUser() {
   });
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const navigate = useNavigate();
-
   const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFirstName(e.target.value);
   };
@@ -43,6 +45,10 @@ export function useCreateUser() {
 
   const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(e.target.value);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,6 +118,7 @@ export function useCreateUser() {
     firstName,
     lastName,
     userName,
+    email,
     password,
     showPassword,
     setShowPassword,
@@ -125,6 +132,7 @@ export function useCreateUser() {
     handleFirstNameChange,
     handleLastNameChange,
     handleUserNameChange,
+    handleEmailChange,
     handlePasswordChange,
     handleConfirmPasswordChange,
     onClose,

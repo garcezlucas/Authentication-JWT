@@ -3,8 +3,11 @@ import ModalFeedBack from "../../components/modalFeedback/ModalFeedback";
 import OpenEye from "../../assets/icons/open_eye.svg";
 import CloseEye from "../../assets/icons/close_eye.svg";
 import { useLogin } from "./useLogin";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+
   const {
     handleSubmit,
     userName,
@@ -13,26 +16,25 @@ const Login: React.FC = () => {
     showPassword,
     setShowPassword,
     handlePasswordChange,
-    navigate,
     isOpen,
     onClose,
     error,
-  } = useLogin();
+  } = useLogin({ navigate });
 
   return (
-    <div className="login-component-container">
-      <div className="login-component-container-fix">
-        <div className="login-component-container-header">
+    <div className="login-container">
+      <div className="login-container-fix">
+        <div className="login-container-header">
           <header>Login</header>
         </div>
-        <div className="login-component-container-message">
+        <div className="login-container-message">
           <p>Por favor, insira seu userName e senha!</p>
         </div>
         <form
-          className="login-component-container-forms"
+          className="login-container-forms"
           onSubmit={handleSubmit}
         >
-          <div className="login-component-container-forms-userName">
+          <div className="login-container-forms-userName">
             <input
               type="text"
               placeholder="UserName"
@@ -40,7 +42,7 @@ const Login: React.FC = () => {
               onChange={handleUserNameChange}
             />
           </div>
-          <div className="login-component-container-forms-password">
+          <div className="login-container-forms-password">
             <input
               type={`${showPassword ? "text" : "password"}`}
               placeholder="Senha"
@@ -61,11 +63,13 @@ const Login: React.FC = () => {
               />
             )}
           </div>
-          <div className="login-component-container-footer">
+          <div className="login-container-footer">
             <span onClick={() => navigate("/createuser")}>Criar usuário</span>
-            <span onClick={() => navigate("/recoverypassword")}>Esqueceu a senha?</span>
+            <span onClick={() => navigate("/recoverypassword")}>
+              Esqueceu a senha?
+            </span>
           </div>
-          <div className="login-component-container-button">
+          <div className="login-container-button">
             <button type="submit">
               <span>Login</span>
             </button>
