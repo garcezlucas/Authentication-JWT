@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import CreateUserComponent from "../components/createUser/CreateUser";
-import LoginPage from "../pages/login/Login";
+import Login from "../pages/login/Login";
+import CreateUser from "../pages/createUser/CreateUser";
 
-function LoginLayout() {
+const LoginLayout = () => {
   const { path } = useParams();
 
-  const [renderPath, setRenderPath] = useState<JSX.Element>(<LoginPage />);
+  const [renderPath, setRenderPath] = useState<JSX.Element>(<Login />);
 
   useEffect(() => {
     const newPath = renderRoute(path);
@@ -16,14 +16,14 @@ function LoginLayout() {
   const renderRoute = (path: string | undefined) => {
     switch (path) {
       case "login":
-        return <LoginPage />;
+        return <Login />;
       case "createuser":
-        return <CreateUserComponent />;
+        return <CreateUser />;
       default:
-        return <LoginPage />;
+        return <Login />;
     }
   };
   return <div>{renderPath}</div>;
-}
+};
 
 export default LoginLayout;

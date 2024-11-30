@@ -1,6 +1,6 @@
-import "./_modalFeedBack.scss";
-import Error from "../../../assets/icons/robot-error.svg";
-import Success from "../../../assets/icons/robot-success.svg";
+import "./_modalFeedback.scss";
+import Error from "../../assets/icons/robot-error.svg";
+import Success from "../../assets/icons/robot-success.svg";
 
 interface ModalFeedBackProps {
   isOpen: boolean;
