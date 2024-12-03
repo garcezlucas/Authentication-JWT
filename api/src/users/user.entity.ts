@@ -15,6 +15,10 @@ export class User {
   @ApiProperty({ description: 'The last name of the user' })
   lastName: string;
 
+  @Column()
+  @ApiProperty({ description: 'The email of the user', uniqueItems: true })
+  email: string;
+
   @Column({ unique: true })
   @ApiProperty({ description: 'The username of the user', uniqueItems: true })
   userName: string;

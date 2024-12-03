@@ -18,6 +18,10 @@ export class UsersService {
       userName: createUserDto.userName,
     });
 
+    const existingEmail = await this.usersRepository.findOneBy({
+      email: createUserDto.email,
+    });
+
     if (existingUser) {
       throw new HttpException(
         'Username already exists',
@@ -25,10 +29,15 @@ export class UsersService {
       );
     }
 
+    if (existingEmail) {
+      throw new HttpException('Email already exists', HttpStatus.BAD_REQUEST);
+    }
+
     const user = new User();
     user.firstName = createUserDto.firstName;
     user.lastName = createUserDto.lastName;
     user.userName = createUserDto.userName;
+    user.email = createUserDto.email;
 
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(createUserDto.password, salt);
