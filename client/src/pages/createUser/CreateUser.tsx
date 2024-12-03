@@ -1,35 +1,19 @@
 import "./_createUser.scss";
 
 import ModalFeedBack from "../../components/modalFeedback/ModalFeedback";
-import OpenEye from "../../assets/icons/open_eye.svg";
-import CloseEye from "../../assets/icons/close_eye.svg";
 import { useCreateUser } from "./useCreateuser";
 import { useNavigate } from "react-router-dom";
+import { Formik, Field, Form, ErrorMessage } from "formik";
 
-function CreateUser() {
+const CreateUser: React.FC<{}> = () => {
   const navigate = useNavigate();
 
   const {
-    firstName,
-    lastName,
-    userName,
-    email,
-    password,
-    showPassword,
-    setShowPassword,
-    confirmPassword,
-    showConfirmPassword,
-    setShowConfirmPassword,
-    validPassword,
     isOpen,
     error,
+    initialValues,
+    validationSchema,
 
-    handleFirstNameChange,
-    handleLastNameChange,
-    handleUserNameChange,
-    handleEmailChange,
-    handlePasswordChange,
-    handleConfirmPasswordChange,
     onClose,
     handleSubmit,
   } = useCreateUser({ navigate });
@@ -43,109 +27,125 @@ function CreateUser() {
         <div className="createuser-container-message">
           <p>Por favor, insira suas informações!</p>
         </div>
-        <form
-          className="createuser-container-forms"
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          <div className="createuser-container-forms-input">
-            <input
-              type="text"
-              placeholder="Primeiro nome"
-              value={firstName}
-              onChange={handleFirstNameChange}
-            />
-          </div>
-          <div className="createuser-container-forms-input">
-            <input
-              type="text"
-              placeholder="Sobrenome"
-              value={lastName}
-              onChange={handleLastNameChange}
-            />
-          </div>
-          <div className="createuser-container-forms-input">
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={handleEmailChange}
-            />
-          </div>
-          <div className="createuser-container-forms-input">
-            <input
-              type="text"
-              placeholder="userName"
-              value={userName}
-              onChange={handleUserNameChange}
-            />
-          </div>
-          <div className="createuser-container-forms-password">
-            <input
-              type={`${showPassword ? "text" : "password"}`}
-              placeholder="Senha"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-            {showPassword ? (
-              <img
-                src={OpenEye}
-                alt="open-eye"
-                onClick={() => setShowPassword(!showPassword)}
-              />
-            ) : (
-              <img
-                src={CloseEye}
-                alt="close-eye"
-                onClick={() => setShowPassword(!showPassword)}
-              />
-            )}
-          </div>
-          <div className="createuser-container-forms-password">
-            <input
-              type={`${showConfirmPassword ? "text" : "password"}`}
-              placeholder="Confirmação da senha"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
-            />
-            {showConfirmPassword ? (
-              <img
-                src={OpenEye}
-                alt="open-eye"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              />
-            ) : (
-              <img
-                src={CloseEye}
-                alt="close-eye"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              />
-            )}
-          </div>
-          {confirmPassword.length > 0 && password !== confirmPassword && (
-            <div className="createuser-container-forms-error">
-              <p>As senhas precisam ser iguais!</p>
-            </div>
+          {({ touched, errors, isSubmitting }) => (
+            <Form className="createuser-container-forms">
+              <div className="createuser-container-forms-input">
+                <Field
+                  type="text"
+                  name="firstName"
+                  placeholder="Primeiro nome"
+                  className={
+                    touched.firstName && errors.firstName ? "input-error" : ""
+                  }
+                />
+                <ErrorMessage
+                  name="firstName"
+                  component="div"
+                  className="createuser-container-forms-error"
+                />
+              </div>
+
+              <div className="createuser-container-forms-input">
+                <Field
+                  type="text"
+                  name="lastName"
+                  placeholder="Sobrenome"
+                  className={
+                    touched.lastName && errors.lastName ? "input-error" : ""
+                  }
+                />
+                <ErrorMessage
+                  name="lastName"
+                  component="div"
+                  className="createuser-container-forms-error"
+                />
+              </div>
+
+              <div className="createuser-container-forms-input">
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  className={touched.email && errors.email ? "input-error" : ""}
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="createuser-container-forms-error"
+                />
+              </div>
+
+              <div className="createuser-container-forms-input">
+                <Field
+                  type="text"
+                  name="userName"
+                  placeholder="Nome de usuário"
+                  className={
+                    touched.userName && errors.userName ? "input-error" : ""
+                  }
+                />
+                <ErrorMessage
+                  name="userName"
+                  component="div"
+                  className="createuser-container-forms-error"
+                />
+              </div>
+
+              <div className="createuser-container-forms-input">
+                <Field
+                  type="password"
+                  name="password"
+                  placeholder="Senha"
+                  className={
+                    touched.password && errors.password ? "input-error" : ""
+                  }
+                />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="createuser-container-forms-error"
+                />
+              </div>
+
+              <div className="createuser-container-forms-input">
+                <Field
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Confirmação da senha"
+                  className={
+                    touched.confirmPassword && errors.confirmPassword
+                      ? "input-error"
+                      : ""
+                  }
+                />
+                <ErrorMessage
+                  name="confirmPassword"
+                  component="div"
+                  className="createuser-container-forms-error"
+                />
+              </div>
+
+              <div className="createuser-container-button">
+                <button type="button" onClick={() => navigate("/login")}>
+                  <span>Voltar</span>
+                </button>
+                <button type="submit" disabled={isSubmitting}>
+                  <span>Criar</span>
+                </button>
+              </div>
+            </Form>
           )}
-          {!validPassword.status && (
-            <div className="createuser-container-forms-error">
-              {validPassword.message.map((message) => {
-                return <p>{message}</p>;
-              })}
-            </div>
-          )}
-          <div className="createuser-container-button">
-            <button type="button" onClick={() => navigate("/login")}>
-              <span>Voltar</span>
-            </button>
-            <button type="submit">
-              <span>Criar</span>
-            </button>
-          </div>
-        </form>
+        </Formik>
       </div>
+
       <ModalFeedBack isOpen={isOpen} onClose={onClose} response={error} />
     </div>
   );
-}
+};
 
 export default CreateUser;

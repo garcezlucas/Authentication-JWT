@@ -38,7 +38,7 @@
         align-items: center;
         width: 100%;
         min-width: 23rem;
-        gap: 1rem;
+        gap: 1.5rem;
         & input {
             width: 95%;
             height: 100%;
@@ -53,41 +53,16 @@
             border-radius: 0.3rem;
             padding-left: 0.5rem;
         }
-        &-password {
-            display: flex;
-            justify-content: space-between;
-            width: 22rem;
-            height: 1.5rem;
-            border: 1px solid silver;
-            border-radius: 0.3rem;
-            padding-left: 0.5rem;
-            & img {
-                cursor: pointer;
-                margin-right: 0.3rem;
-            }
-        }
         &-error {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
             width: 100%;
-            & p {
-                font-family: New Order;
-                font-size: 0.8rem;
-                font-weight: 300;
-                color: red;
-            }
-        }
-    }
-    &-footer {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        & span {
             font-family: New Order;
             font-size: 0.8rem;
             font-weight: 300;
-            cursor: pointer;
+            color: red;
+            margin-top: 0.3rem;
         }
     }
     &-button {
@@ -95,6 +70,7 @@
         justify-content: center;
         width: 100%;
         gap: 1rem;
+        margin-top: 1rem;
         & button {
             width: 5rem;
             height: 2rem;

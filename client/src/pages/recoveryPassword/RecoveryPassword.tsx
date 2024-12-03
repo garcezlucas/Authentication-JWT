@@ -1,18 +1,19 @@
+import "./_recoveryPassword.scss";
 import { useNavigate } from "react-router-dom";
 import ModalFeedBack from "../../components/modalFeedback/ModalFeedback";
-import "./_recoveryPassword.scss";
 import { useRecoveryPassword } from "./useRecoveryPassowrd";
+import { Formik, Field, Form, ErrorMessage } from "formik";
 
 const RecoveryPassword = () => {
   const navigate = useNavigate();
 
   const {
-    email,
     isOpen,
     onClose,
     error,
+    initialValues,
+    validationSchema,
 
-    handleEmailChange,
     handleSubmit,
   } = useRecoveryPassword({ navigate });
 
@@ -25,27 +26,40 @@ const RecoveryPassword = () => {
         <div className="recoveryPassword-container-message">
           <p>Por favor, insira seu email!</p>
         </div>
-        <form
-          className="recoveryPassword-container-forms"
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          <div className="recoveryPassword-container-forms-input">
-            <input
-              type="text"
-              placeholder="Email"
-              value={email}
-              onChange={handleEmailChange}
-            />
-          </div>
-          <div className="recoveryPassword-container-button">
-            <button type="button" onClick={() => navigate("/login")}>
-              <span>Voltar</span>
-            </button>
-            <button type="submit">
-              <span>Enviar</span>
-            </button>
-          </div>
-        </form>
+          {({ values, handleChange, handleBlur, errors, touched }) => (
+            <Form className="recoveryPassword-container-forms">
+              <div className="recoveryPassword-container-forms-input">
+                <Field
+                  type="text"
+                  name="email"
+                  placeholder="Email"
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={touched.email && errors.email ? "input-error" : ""}
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="recoveryPassword-container-forms-error"
+                />
+              </div>
+              <div className="recoveryPassword-container-button">
+                <button type="button" onClick={() => navigate("/login")}>
+                  <span>Voltar</span>
+                </button>
+                <button type="submit">
+                  <span>Enviar</span>
+                </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
       </div>
       <ModalFeedBack isOpen={isOpen} onClose={onClose} response={error} />
     </div>
