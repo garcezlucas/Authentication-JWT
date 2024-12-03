@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { LoginDataService } from "../../services/Login.service";
+import * as Yup from "yup";
 
 interface CustomError {
   status: number;
@@ -7,34 +8,41 @@ interface CustomError {
   data?: any;
 }
 
+interface FormValues {
+  email: string;
+}
+
 interface useRecoveryPasswordProps {
   navigate: (path: string) => void;
 }
 
 export function useRecoveryPassword({ navigate }: useRecoveryPasswordProps) {
-  const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<{ status: number; message: string }>({
     status: 0,
     message: "",
   });
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+  const initialValues: FormValues = {
+    email: "",
   };
+
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email("Email inválido")
+      .required("Email é obrigatório"),
+  });
 
   const onClose = () => setIsOpen(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = async (values: FormValues) => {
     try {
-      const response = await LoginDataService.recoveryPassword(email);
+      const response = await LoginDataService.recoveryPassword(values.email);
 
       if (response.status === 201) {
         const error: CustomError = {
           status: response.status || 0,
-          message: "Usuario criado com sucesso",
+          message: "Usuário criado com sucesso",
           data: response || undefined,
         };
         setError(error);
@@ -57,12 +65,12 @@ export function useRecoveryPassword({ navigate }: useRecoveryPasswordProps) {
   };
 
   return {
-    email,
     isOpen,
     onClose,
     error,
+    initialValues,
+    validationSchema,
 
-    handleEmailChange,
     handleSubmit,
   };
 }

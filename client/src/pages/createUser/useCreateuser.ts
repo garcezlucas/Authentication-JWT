@@ -1,9 +1,6 @@
-import { useState } from "react";
-import {
-  PasswordValidationResult,
-  validatePassword,
-} from "../../utils/ValidatePassword";
 import { LoginDataService } from "../../services/Login.service";
+import * as Yup from "yup";
+import { useState } from "react";
 
 interface CustomError {
   status: number;
@@ -11,82 +8,57 @@ interface CustomError {
   data?: any;
 }
 
+interface FormValues {
+  firstName: string;
+  lastName: string;
+  userName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
 interface useCreateUserProps {
   navigate: (path: string) => void;
 }
 
 export function useCreateUser({ navigate }: useCreateUserProps) {
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [userName, setUserName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [showConfirmPassword, setShowConfirmPassword] =
-    useState<boolean>(false);
-  const [validPassword, setValidPassword] = useState<PasswordValidationResult>({
-    status: true,
-    message: [],
-  });
-  const [error, setError] = useState<{ status: number; message: string }>({
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [error, setError] = useState<CustomError>({
     status: 0,
     message: "",
   });
-  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFirstName(e.target.value);
+  const initialValues: FormValues = {
+    firstName: "",
+    lastName: "",
+    userName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   };
 
-  const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLastName(e.target.value);
-  };
-
-  const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(e.target.value);
-  };
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-    setValidPassword({
-      status: true,
-      message: [],
-    });
-  };
-
-  const handleConfirmPasswordChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setConfirmPassword(e.target.value);
-    setValidPassword({
-      status: true,
-      message: [],
-    });
-  };
+  const validationSchema = Yup.object({
+    firstName: Yup.string().required("Primeiro nome é obrigatório"),
+    lastName: Yup.string().required("Sobrenome é obrigatório"),
+    email: Yup.string().email("Email inválido").required("Email é obrigatório"),
+    userName: Yup.string().required("Nome de usuário é obrigatório"),
+    password: Yup.string()
+      .min(6, "A senha deve ter pelo menos 6 caracteres")
+      .required("Senha é obrigatória"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password")], "As senhas precisam ser iguais")
+      .required("Confirmação de senha é obrigatória"),
+  });
 
   const onClose = () => setIsOpen(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = async (values: FormValues) => {
     try {
-      const validationResult = validatePassword(password, userName);
-
-      if (!validationResult.status) {
-        setValidPassword(validationResult);
-        return;
-      }
-
       const response = await LoginDataService.createUser(
-        firstName,
-        lastName,
-        userName,
-        password
+        values.firstName,
+        values.lastName,
+        values.userName,
+        values.password
       );
 
       if (response.status === 201) {
@@ -115,26 +87,11 @@ export function useCreateUser({ navigate }: useCreateUserProps) {
   };
 
   return {
-    firstName,
-    lastName,
-    userName,
-    email,
-    password,
-    showPassword,
-    setShowPassword,
-    confirmPassword,
-    showConfirmPassword,
-    setShowConfirmPassword,
-    validPassword,
     isOpen,
     error,
+    initialValues,
+    validationSchema,
 
-    handleFirstNameChange,
-    handleLastNameChange,
-    handleUserNameChange,
-    handleEmailChange,
-    handlePasswordChange,
-    handleConfirmPasswordChange,
     onClose,
     handleSubmit,
   };
