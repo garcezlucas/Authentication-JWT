@@ -1,4 +1,4 @@
-.recoveryPassword-container {
+.login-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,8 +9,9 @@
         flex-direction: column;
         gap: 1rem;
         padding: 1rem;
-        border: 1px solid silver;
+        border: 1px solid #FAFAFA;
         border-radius: 0.3rem;
+        margin-left: 15rem;
     }
     &-header {
         display: flex;
@@ -19,7 +20,8 @@
         & header {
             font-family: New Order;
             font-size: 1.5rem;
-            font-weight: 500;
+            font-weight: 600;
+            color: #1A2B3C;
         }
     }
     &-message {
@@ -29,7 +31,8 @@
         & p {
             font-family: New Order;
             font-size: 1rem;
-            font-weight: 400;
+            font-weight: 500;
+            color: #1A2B3C;
         }
     }
     &-forms {
@@ -42,44 +45,81 @@
         & input {
             width: 95%;
             height: 100%;
+            background-color: #FAFAFA;
             &:focus {
                 outline: none;
             }
         }
-        &-input {
+        &-userName {
             width: 22rem;
-            height: 1.5rem;
-            border: 1px solid silver;
+            height: 2rem;
+            border: 1px solid #FAFAFA;
             border-radius: 0.3rem;
             padding-left: 0.5rem;
+            background-color: #FAFAFA;
+        }
+        &-password {
+            display: flex;
+            justify-content: space-between;
+            width: 22rem;
+            height: 2rem;
+            border: 1px solid #FAFAFA;
+            background-color: #FAFAFA;
+            border-radius: 0.3rem;
+            padding-left: 0.5rem;
+            & img {
+                cursor: pointer;
+                margin-right: 0.3rem;
+                background-color: #FAFAFA;
+            }
         }
         &-error {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
             width: 100%;
+            & p {
+                font-family: New Order;
+                font-size: 0.8rem;
+                font-weight: 400;
+                color: red;
+            }
+        }
+    }
+    &-footer {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        & span {
             font-family: New Order;
             font-size: 0.8rem;
-            font-weight: 300;
-            color: red;
+            font-weight: 400;
+            cursor: pointer;
+            color: #1A2B3C;
         }
     }
     &-button {
         display: flex;
         justify-content: center;
         width: 100%;
-        gap: 1rem;
-        margin-top: 1rem;
         & button {
             width: 5rem;
             height: 2rem;
             border-radius: 0.3rem;
             cursor: pointer;
+            background-color: #FAFAFA;
             & span {
                 font-family: New Order;
                 font-size: 0.8rem;
-                font-weight: 400;
+                font-weight: 500;
+                color: #1A2B3C;
             }
         }
+    }
+}
+
+@media screen and (max-width: 1150px) {
+    .login-container-fix {
+        margin-left: 0rem;
     }
 }

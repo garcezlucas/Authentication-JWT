@@ -1,15 +1,12 @@
 import { useState } from "react";
-import { LoginDataService } from "../../services/Login.service";
 import * as Yup from "yup";
-
-interface CustomError {
-  status: number;
-  message: string;
-  data?: any;
-}
+import { UserDataService } from "../../services/User.service";
+import { CustomError } from "../../interfaces/CustomError";
 
 interface FormValues {
   email: string;
+  password: string;
+  confirmPassword: string;
 }
 
 interface useRecoveryPasswordProps {
@@ -25,19 +22,31 @@ export function useRecoveryPassword({ navigate }: useRecoveryPasswordProps) {
 
   const initialValues: FormValues = {
     email: "",
+    password: "",
+    confirmPassword: "",
   };
 
   const validationSchema = Yup.object({
     email: Yup.string()
       .email("Email inválido")
       .required("Email é obrigatório"),
+      password: Yup.string()
+        .min(6, "A senha deve ter pelo menos 6 caracteres")
+        .required("Senha é obrigatória"),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref("password")], "As senhas precisam ser iguais")
+        .required("Confirmação de senha é obrigatória"),
   });
 
   const onClose = () => setIsOpen(false);
 
   const handleSubmit = async (values: FormValues) => {
     try {
-      const response = await LoginDataService.recoveryPassword(values.email);
+      const data = {
+        email: values.email,
+        password: values.password
+      }
+      const response = await UserDataService.recoveryPassword(data);
 
       if (response.status === 201) {
         const error: CustomError = {

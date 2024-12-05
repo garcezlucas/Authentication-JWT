@@ -1,7 +1,5 @@
 # Authentication-JWT
 
-# Em construçao
-
 Creation of a full-stack project for user creation and authentication.
 
 # API
@@ -13,8 +11,7 @@ Este projeto implementa uma API para gerenciamento de usuários com funcionalida
 ## Funcionalidades
 
 - **Criar um novo usuário**: Endpoint para criar um usuário com informações como nome, sobrenome, nome de usuário e senha.
-- **Listar todos os usuários**: Endpoint para listar todos os usuários cadastrados.
-- **Buscar um usuário por nome de usuário**: Endpoint para buscar um usuário específico pelo userName.
+- **Buscar um usuário por email**: Endpoint para buscar um usuário específico pelo email.
 - **Remover um usuário**: Endpoint para remover um usuário com base no userName.
 - **Autenticação via JWT**: Endpoint para realizar login, gerando um token JWT para o usuário.
 - **Logout**: Implementação do logout para invalidar o token JWT.
@@ -86,8 +83,6 @@ TypeOrmModule.forRoot({
 yarn start:dev
 ```
 
-#### A aplicação estará disponível em `http://localhost:3000`.
-
 ### 2. **Executar migrações (se necessário)**:
 
 #### Se o projeto usar migrações do TypeORM para criar tabelas e outras estruturas, você pode rodá-las com o seguinte comando:
@@ -104,6 +99,48 @@ yarn migration:run
 
 - #### Para verificar a documentação, acesse: `http://localhost:3003/api#/`
 
+---
+
+# Client
+
+## Funcionalidades
+
+- **Login e autenticação**: Tela de login para autenticar usuários e obter o token JWT.
+- **Cadastro de novos usuários**: Formulário para criar novos usuários.
+- **Troca de senha**: Formulário para modificar senha.
+- **Autenticação via JWT**: Endpoint para realizar login, gerando um token JWT para o usuário.
+- **Refresh Token**: Implementação de refresh token automático após expirção do token.
+
+## Tecnologias Utilizadas
+
+- **React.js:**: Biblioteca para construção de interfaces dinâmicas.
+- **React Query**: Ferramenta para gerenciamento de dados assíncronos.
+- **Axios**: Cliente HTTP para comunicação com a API.
+- **Sass (SCSS)**: Pré-processador CSS para estilização.
+
+## Configuração
+
+### 1. **Instale as dependências**:
+
+`yarn`:
+
+```bash
+yarn install
+```
+
+## Rodando o Projeto
+
+### 1. **Iniciar**:
+
+#### Para rodar a aplicação em modo de desenvolvimento, use o seguinte comando:
+
+`yarn`:
+
+```bash
+yarn start
+```
+
+#### A aplicação estará disponível em `http://localhost:3000`.
 
 ## Testes
 

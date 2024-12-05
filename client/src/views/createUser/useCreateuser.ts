@@ -1,12 +1,7 @@
-import { LoginDataService } from "../../services/Login.service";
 import * as Yup from "yup";
 import { useState } from "react";
-
-interface CustomError {
-  status: number;
-  message: string;
-  data?: any;
-}
+import { UserDataService } from "../../services/User.service";
+import { CustomError } from "../../interfaces/CustomError";
 
 interface FormValues {
   firstName: string;
@@ -52,14 +47,17 @@ export function useCreateUser({ navigate }: useCreateUserProps) {
 
   const onClose = () => setIsOpen(false);
 
-  const handleSubmit = async (values: FormValues) => {
+  const handleSubmit = async (value: FormValues) => {
     try {
-      const response = await LoginDataService.createUser(
-        values.firstName,
-        values.lastName,
-        values.userName,
-        values.password
-      );
+      const user = {
+        firstName: value.firstName,
+        lastName: value.lastName,
+        userName: value.userName,
+        email: value.email,
+        password: value.password,
+      };
+
+      const response = await UserDataService.createUser(user);
 
       if (response.status === 201) {
         const error: CustomError = {

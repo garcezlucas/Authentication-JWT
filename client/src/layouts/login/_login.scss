@@ -1,0 +1,14 @@
+.login-layout-container {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../../assets/images/token.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+@media screen and (max-width: 1150px) {
+    .login-layout-container {
+        background-position: calc(50% - 10rem) center;
+    }
+}

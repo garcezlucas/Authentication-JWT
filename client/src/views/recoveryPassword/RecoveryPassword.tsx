@@ -31,16 +31,13 @@ const RecoveryPassword = () => {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {({ values, handleChange, handleBlur, errors, touched }) => (
+          {({ touched, errors, isSubmitting }) => (
             <Form className="recoveryPassword-container-forms">
               <div className="recoveryPassword-container-forms-input">
                 <Field
                   type="text"
                   name="email"
                   placeholder="Email"
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
                   className={touched.email && errors.email ? "input-error" : ""}
                 />
                 <ErrorMessage
@@ -49,11 +46,45 @@ const RecoveryPassword = () => {
                   className="recoveryPassword-container-forms-error"
                 />
               </div>
+              <div className="recoveryPassword-container-forms-input">
+                <Field
+                  type="password"
+                  name="password"
+                  placeholder="Senha"
+                  className={
+                    touched.password && errors.password ? "input-error" : ""
+                  }
+                />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="recoveryPassword-container-forms-error"
+                />
+              </div>
+
+              <div className="recoveryPassword-container-forms-input">
+                <Field
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Confirmação da senha"
+                  className={
+                    touched.confirmPassword && errors.confirmPassword
+                      ? "input-error"
+                      : ""
+                  }
+                />
+                <ErrorMessage
+                  name="confirmPassword"
+                  component="div"
+                  className="recoveryPassword-container-forms-error"
+                />
+              </div>
+
               <div className="recoveryPassword-container-button">
                 <button type="button" onClick={() => navigate("/login")}>
                   <span>Voltar</span>
                 </button>
-                <button type="submit">
+                <button type="submit" disabled={isSubmitting}>
                   <span>Enviar</span>
                 </button>
               </div>
