@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Login from "../pages/login/Login";
-import CreateUser from "../pages/createUser/CreateUser";
-import RecoveryPassword from "../pages/recoveryPassword/RecoveryPassword";
+import Login from "../../views/login/Login";
+import CreateUser from "../../views/createUser/CreateUser";
+import RecoveryPassword from "../../views/recoveryPassword/RecoveryPassword";
+import "./_login.scss";
 
 const LoginLayout = () => {
   const { path } = useParams();
@@ -26,7 +27,8 @@ const LoginLayout = () => {
         return <Login />;
     }
   };
-  return <div>{renderPath}</div>;
+  
+  return <div className="login-layout-container">{renderPath}</div>;
 };
 
 export default LoginLayout;

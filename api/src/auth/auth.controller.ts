@@ -19,7 +19,7 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Successful login', type: TokenDto })
   @ApiResponse({ status: 404, description: 'User not found' })
   signIn(@Body() signInDto: Record<string, any>) {
-    return this.authService.signIn(signInDto.username, signInDto.password);
+    return this.authService.signIn(signInDto.userName, signInDto.password);
   }
 
   @Post('logout')
@@ -29,6 +29,7 @@ export class AuthController {
     return { message: 'Logout successful' };
   }
 
+  @Public()
   @Post('refresh-token')
   @ApiOperation({ summary: 'Update the access token with a refresh token' })
   @ApiBody({ type: RefreshTokenDto })

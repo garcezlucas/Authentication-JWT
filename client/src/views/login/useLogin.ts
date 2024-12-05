@@ -1,11 +1,6 @@
 import { useState } from "react";
-import { LoginDataService } from "../../services/Login.service";
-
-interface CustomError {
-  status: number;
-  message: string;
-  data?: any;
-}
+import { AuthDataService } from "../../services/Auth.service";
+import { CustomError } from "../../interfaces/CustomError";
 
 interface useLoginProps {
   navigate: (path: string) => void;
@@ -35,10 +30,13 @@ export function useLogin({ navigate }: useLoginProps) {
     e.preventDefault();
 
     try {
-      const response = await LoginDataService.signin(userName, password);
+      const response = await AuthDataService.signin(userName, password);
 
       if (response.status === 200) {
-        navigate("/");
+        localStorage.setItem('email', response.data.email);
+        localStorage.setItem('token', response.data.access_token);
+        localStorage.setItem('refresh', response.data.refresh_token);
+        navigate("/system/dashboard");
       } else if ("message" in response && response.status !== 200) {
         const error: CustomError = {
           status: response.status || 0,

@@ -13,8 +13,8 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(username: string, pass: string) {
-    const user = await this.usersService.findOne(username);
+  async signIn(userName: string, pass: string) {
+    const user = await this.usersService.findOneByUserName(userName);
     if (!user) {
       throw new NotFoundException('User does not exist');
     }
@@ -24,7 +24,7 @@ export class AuthService {
       throw new NotFoundException('Passwords do not match');
     }
 
-    const payload = { username: user.userName, sub: user.id };
+    const payload = { userName: user.userName, sub: user.id };
 
     const access_token = await this.jwtService.signAsync(payload, {
       expiresIn: '15m',
@@ -37,6 +37,7 @@ export class AuthService {
     this.refreshTokens.set(user.id, refresh_token);
 
     return {
+      email: user.email,
       access_token,
       refresh_token,
     };

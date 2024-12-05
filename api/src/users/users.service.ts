@@ -47,21 +47,42 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  async findAll(): Promise<User[]> {
-    return this.usersRepository.find();
-  }
-
-  findOne(userName: string): Promise<User> {
+  findOneByUserName(userName: string): Promise<User> {
     return this.usersRepository.findOneBy({ userName: userName });
   }
 
-  async remove(userName: string): Promise<void> {
-    const user = await this.usersRepository.findOneBy({ userName });
+  async findOne(email: string): Promise<Partial<User>> {
+    const user = await this.usersRepository.findOneBy({ email });
+    if (user) {
+      const { password, ...userWithoutPassword } = user; // eslint-disable-line @typescript-eslint/no-unused-vars
+      console.log(userWithoutPassword);
+      return userWithoutPassword;
+    }
+    return null;
+  }
+
+  async remove(email: string): Promise<void> {
+    const user = await this.usersRepository.findOneBy({ email });
 
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    await this.usersRepository.delete(userName);
+    await this.usersRepository.delete(email);
+  }
+
+  async updatePassword(email: string, newPassword: string): Promise<void> {
+    const user = await this.usersRepository.findOneBy({ email });
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    user.password = hashedPassword;
+
+    await this.usersRepository.save(user);
   }
 }
